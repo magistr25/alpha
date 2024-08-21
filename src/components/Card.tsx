@@ -1,19 +1,21 @@
 import React from 'react';
 
-interface CountryCardProps {
-    country: {
-        name: {
-            common: string;
-            official: string;
-        };
-        population: number;
-        region: string;
-        capital: string[];
-        flags: {
-            png: string;
-            svg: string;
-        };
+interface Country {
+    name: {
+        common: string;
+        official: string;
     };
+    population: number;
+    region: string;
+    capital: string[];
+    flags: {
+        png: string;
+        svg: string;
+    };
+}
+
+interface CountryCardProps {
+    country: Country;
 }
 
 const CountryCard: React.FC<CountryCardProps> = ({ country }) => {
@@ -30,5 +32,8 @@ const CountryCard: React.FC<CountryCardProps> = ({ country }) => {
 };
 
 export default CountryCard;
+
+
+
 
 

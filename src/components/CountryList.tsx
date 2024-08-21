@@ -1,6 +1,15 @@
-import { useGetCountriesQuery } from '../app/apiSlice.ts';
+import React from 'react';
+import { useSelector } from 'react-redux';
+import { useGetCountriesQuery } from '../app/apiSlice';
+import CountryCard from './Card';
+import { RootState } from '../app/store';
 
-interface Country {
+
+interface CountryListProps {
+    showLiked: boolean;
+}
+
+export interface Country {
     name: {
         common: string;
         official: string;
@@ -14,25 +23,27 @@ interface Country {
     };
 }
 
-const CountryList = () => {
+const CountryList: React.FC<CountryListProps> = ({ showLiked }) => {
     const { data: countries, error, isLoading } = useGetCountriesQuery(undefined);
+    const likedCountries = useSelector((state: RootState) => state.cards.likedCountries);
 
     if (isLoading) return <div>Loading...</div>;
     if (error) return <div>Error occurred: {error.toString()}</div>;
 
+    const displayedCountries = showLiked
+        ? countries?.filter((country: Country) => likedCountries.includes(country.name.common))
+        : countries;
+
     return (
-        <div>
-            {countries?.map((country: Country) => (
-                <div key={country.name.common}>
-                    <h3>{country.name.common}</h3>
-                    <p>Region: {country.region}</p>
-                    <p>Capital: {country.capital?.join(', ')}</p>
-                    <p>Population: {country.population.toLocaleString()}</p>
-                    <img src={country.flags.png} alt={`${country.name.common} flag`} />
-                </div>
+        <div className="country-list">
+            {displayedCountries?.map((country: Country) => (
+                <CountryCard key={country.name.common} country={country} />
             ))}
         </div>
     );
 };
 
 export default CountryList;
+
+
+
