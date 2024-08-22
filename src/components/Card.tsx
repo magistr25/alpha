@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { removeCard, toggleLike } from '../app/cardsSlice';
 import  { Country } from '../../types/Country.ts';
@@ -9,25 +10,24 @@ interface CountryCardProps {
 }
 const CountryCard: React.FC<CountryCardProps> = ({ country, isLiked }) => {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
-    const handleLike = () => {
+    const handleLike = (e: React.MouseEvent) => {
+        e.stopPropagation();
         dispatch(toggleLike(country.name.common));
     };
 
-    const handleRemove = () => {
+    const handleRemove = (e: React.MouseEvent) => {
+        e.stopPropagation();
         dispatch(removeCard(country.name.common));
     };
 
+    const handleCardClick = () => {
+        navigate(`/country/${country.name.common}`);
+    };
+
     return (
-        <div className="country-card">
-            <div className="country-card__content">
-                <img src={country.flags.png} alt={`${country.name.common} flag`}/>
-                <h3>{country.name.common}</h3>
-                <p>Official Name: {country.name.official}</p>
-                <p>Capital: {country.capital?.join(', ')}</p>
-                <p>Region: {country.region}</p>
-                <p>Population: {country.population.toLocaleString()}</p>
-            </div>
+        <div className="country-card" onClick={handleCardClick}>
             <div className="country-card-actions">
                 <button className="like-button" onClick={handleLike}>
                     {isLiked ? (
@@ -69,8 +69,17 @@ const CountryCard: React.FC<CountryCardProps> = ({ country, isLiked }) => {
                     </svg>
                 </button>
             </div>
+            <div className="country-card__content">
+                <img src={country.flags.png} alt={`${country.name.common} flag`}/>
+                <h3>{country.name.common}</h3>
+                <p className="truncate">Official Name: {country.name.official}</p>
+                <p>Capital: {country.capital?.join(', ')}</p>
+                <p>Region: {country.region}</p>
+                <p>Population: {country.population.toLocaleString()}</p>
+            </div>
         </div>
     );
 };
 
 export default CountryCard;
+

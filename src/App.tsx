@@ -4,6 +4,8 @@ import FilterButton from "./components/FilterButton.tsx";
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from './app/store';
+import { Routes, Route } from 'react-router-dom';
+import CountryDetail from './components/CountryDetail.tsx';
 
 const App = () => {
     const [showLiked, setShowLiked] = useState(false);
@@ -20,13 +22,19 @@ const App = () => {
                 <FilterButton onToggle={handleToggle} />
             </header>
             <main className="app-main">
-                {showLiked && likedCountries.length === 0 ? (
-                    <p>No liked countries</p>
-                ) : (
-                    <CountryList showLiked={showLiked} />
-                )}
+                <Routes>
+                    <Route path="/" element={
+                        showLiked && likedCountries.length === 0 ? (
+                            <p>No liked countries</p>
+                        ) : (
+                            <CountryList showLiked={showLiked} />
+                        )
+                    } />
+                    <Route path="/country/:name" element={<CountryDetail />} />
+                </Routes>
             </main>
         </div>
+
     );
 };
 
