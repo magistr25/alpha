@@ -14,7 +14,6 @@ const store = configureStore({
         getDefaultMiddleware().concat(apiSlice.middleware),
 });
 
-// Экспорт типов RootState и AppDispatch
 export type RootState = ReturnType<typeof store.getState>;
 export default store;
 
