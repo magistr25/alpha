@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from './app/store';
 import { Routes, Route, useNavigate } from 'react-router-dom';
 import CountryDetail from './components/CountryDetail.tsx';
+import {useEffect} from "react";
 
 const App = () => {
     const likedCountries = useSelector((state: RootState) => state.cards.likedCountries);
@@ -12,29 +13,35 @@ const App = () => {
 
     const handleToggle = (newShowLiked: boolean) => {
         if (newShowLiked) {
-            navigate("/alpha/liked");
+            navigate("/liked");
         } else {
-            navigate("/alpha/");
+            navigate("/");
         }
     };
+    useEffect(() => {
+        // Если пользователь на странице /liked и обновляет страницу
+        if (location.pathname === "/liked") {
+            navigate("/liked");
+        }
+    }, [navigate]);
 
     return (
         <div className="app-wrapper">
             <header className="app-header">
-                <h1 className="logo" onClick={() => navigate("/alpha/")}>Country Info</h1>
+                <h1 className="logo" onClick={() => navigate("/")}>Country Info</h1>
                 <FilterButton onToggle={handleToggle} />
             </header>
             <main className="app-main">
                 <Routes>
-                    <Route path="/alpha/" element={<CountryList showLiked={false} />} />
-                    <Route path="/alpha/liked" element={
+                    <Route path="/" element={<CountryList showLiked={false} />} />
+                    <Route path="/liked" element={
                         likedCountries.length === 0 ? (
                             <p>No liked countries</p>
                         ) : (
                             <CountryList showLiked={true} />
                         )
                     } />
-                    <Route path="/alpha/country/:name" element={<CountryDetail />} />
+                    <Route path="/country/:name" element={<CountryDetail />} />
                 </Routes>
             </main>
         </div>
@@ -42,3 +49,4 @@ const App = () => {
 };
 
 export default App;
+

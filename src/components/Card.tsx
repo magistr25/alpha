@@ -23,7 +23,7 @@ const CountryCard: React.FC<CountryCardProps> = ({ country, isLiked }) => {
     };
 
     const handleCardClick = () => {
-        navigate(`/alpha/country/${country.name.common}`);
+        navigate(`/country/${country.name.common}`);
     };
 
     return (

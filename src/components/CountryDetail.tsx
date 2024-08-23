@@ -15,7 +15,7 @@ const CountryDetail = () => {
     useEffect(() => {
         if (!country) {
             // Если данные о стране не найдены, перенаправляем на главную страницу
-            navigate('/alpha');
+            navigate('/');
         }
     }, [country, navigate]);
 
