@@ -1,40 +1,43 @@
 import './App.css';
 import CountryList from './components/CountryList.tsx';
 import FilterButton from "./components/FilterButton.tsx";
-import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from './app/store';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useNavigate } from 'react-router-dom';
 import CountryDetail from './components/CountryDetail.tsx';
 
 const App = () => {
-    const [showLiked, setShowLiked] = useState(false);
     const likedCountries = useSelector((state: RootState) => state.cards.likedCountries);
+    const navigate = useNavigate();
 
     const handleToggle = (newShowLiked: boolean) => {
-        setShowLiked(newShowLiked);
+        if (newShowLiked) {
+            navigate("/liked");
+        } else {
+            navigate("/");
+        }
     };
 
     return (
         <div className="app-wrapper">
             <header className="app-header">
-                <h1 className="logo">Country Info</h1>
+                <h1 className="logo" onClick={() => navigate("/")}>Country Info</h1>
                 <FilterButton onToggle={handleToggle} />
             </header>
             <main className="app-main">
                 <Routes>
-                    <Route path="/" element={
-                        showLiked && likedCountries.length === 0 ? (
+                    <Route path="/" element={<CountryList showLiked={false} />} />
+                    <Route path="/liked" element={
+                        likedCountries.length === 0 ? (
                             <p>No liked countries</p>
                         ) : (
-                            <CountryList showLiked={showLiked} />
+                            <CountryList showLiked={true} />
                         )
                     } />
                     <Route path="/country/:name" element={<CountryDetail />} />
                 </Routes>
             </main>
         </div>
-
     );
 };
 

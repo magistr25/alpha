@@ -127,6 +127,7 @@ html, body {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
   background: rgba(0, 0, 0, 0.4);
   margin: 20px;
+
 }
 
 .button {
@@ -163,13 +164,16 @@ html, body {
 }
 .country-card__content{
 padding-bottom: 40px;
+
 }
 .country-card-actions {
   position: absolute;
+  height: 24px;
   top: 10px;
   right: 10px;
   display: flex;
   gap: 10px;
+  align-items: center;
 }
 .like-button, .remove-button {
   background: none;
@@ -177,6 +181,8 @@ padding-bottom: 40px;
   cursor: pointer;
   font-size: 1.5rem;
   transition: transform 0.2s ease;
+  align-items: center;
+  line-height: 1;
 }
 
 
@@ -241,6 +247,20 @@ padding-bottom: 40px;
   line-height: 1;
 }
 
+.loader {
+  border: 8px solid #f3f3f3;
+  border-top: 8px solid #3498db;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  animation: spin 2s linear infinite;
+  margin: 0 auto;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
 
 
 
