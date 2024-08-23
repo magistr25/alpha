@@ -12,29 +12,29 @@ const App = () => {
 
     const handleToggle = (newShowLiked: boolean) => {
         if (newShowLiked) {
-            navigate("/liked");
+            navigate("/alpha/liked");
         } else {
-            navigate("/");
+            navigate("/alpha/");
         }
     };
 
     return (
         <div className="app-wrapper">
             <header className="app-header">
-                <h1 className="logo" onClick={() => navigate("/")}>Country Info</h1>
+                <h1 className="logo" onClick={() => navigate("/alpha/")}>Country Info</h1>
                 <FilterButton onToggle={handleToggle} />
             </header>
             <main className="app-main">
                 <Routes>
-                    <Route path="/" element={<CountryList showLiked={false} />} />
-                    <Route path="/liked" element={
+                    <Route path="/alpha/" element={<CountryList showLiked={false} />} />
+                    <Route path="/alpha/liked" element={
                         likedCountries.length === 0 ? (
                             <p>No liked countries</p>
                         ) : (
                             <CountryList showLiked={true} />
                         )
                     } />
-                    <Route path="/country/:name" element={<CountryDetail />} />
+                    <Route path="/alpha/country/:name" element={<CountryDetail />} />
                 </Routes>
             </main>
         </div>
